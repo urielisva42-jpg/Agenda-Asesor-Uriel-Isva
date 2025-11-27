@@ -55,31 +55,36 @@
         </section>
 
         <!-- Panel CP -->
-        <section id="panel-cp" class="panel">
-            <h2>Buscar Código Postal</h2>
-            <p class="texto-secundario">Escribe un CP o colonia para buscar en el catálogo.</p>
+<section id="panel-cp" class="panel">
+    <h2>Buscar Código Postal</h2>
+    <p class="texto-secundario">Escribe un CP, colonia o asentamiento para buscar en el catálogo.</p>
 
-            <div class="buscador">
-                <input type="text" id="input-cp" placeholder="Ej. 91700 o Centro">
-                <button id="btn-buscar-cp">Buscar</button>
-            </div>
+    <div class="buscador">
+        <input type="text" id="input-cp" placeholder="Ej. 95640 o Isla Centro">
+        <button id="btn-buscar-cp">Buscar</button>
+    </div>
 
-            <div class="resultados">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>C.P.</th>
-                            <th>Colonia</th>
-                            <th>Municipio</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-cp"></tbody>
-                </table>
-                <p id="cp-sin-resultados" class="texto-secundario oculto">No se encontraron resultados.</p>
-            </div>
-        </section>
+    <div class="resultados">
+        <table>
+            <thead>
+                <tr>
+                    <th>CP</th>
+                    <th>Estado</th>
+                    <th>Municipio</th>
+                    <th>Ciudad</th>
+                    <th>Tipo</th>
+                    <th>Asentamiento</th>
+                    <th>Clave Oficina</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-cp"></tbody>
+        </table>
 
+        <p id="cp-sin-resultados" class="texto-secundario oculto">
+            No se encontraron resultados.
+        </p>
+    </div>
+</section>
         <!-- Panel Oficios -->
         <section id="panel-oficios" class="panel oculto">
             <h2>Catálogo de Oficios</h2>
