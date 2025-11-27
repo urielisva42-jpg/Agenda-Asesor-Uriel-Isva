@@ -321,66 +321,49 @@ function configurarBotonesPaneles() {
 // Buscador Códigos Postales
 // =======================
 
-function configurarBuscadorCP() {
-    const input = document.getElementById("input-cp");
-    const boton = document.getElementById("btn-buscar-cp");
-    const cuerpoTabla = document.getElementById("tabla-cp");
-    const mensajeSinResultados = document.getElementById("cp-sin-resultados");
+document.getElementById("btn-buscar-cp").addEventListener("click", buscarCP);
 
-    if (!input || !boton) return;
+function buscarCP() {
+    const texto = document.getElementById("input-cp").value.trim().toLowerCase();
+    const tabla = document.getElementById("tabla-cp");
+    const sinResultados = document.getElementById("cp-sin-resultados");
 
-    function realizarBusqueda() {
-        const termino = input.value.trim().toLowerCase();
-        cuerpoTabla.innerHTML = "";
+    tabla.innerHTML = "";
+    sinResultados.classList.add("oculto");
 
-        let resultados = CODIGOS_POSTALES;
-
-        if (termino) {
-            resultados = CODIGOS_POSTALES.filter(item =>
-                item.cp.toLowerCase().includes(termino) ||
-                item.colonia.toLowerCase().includes(termino) ||
-                item.municipio.toLowerCase().includes(termino) ||
-                item.estado.toLowerCase().includes(termino)
-            );
-        }
-
-        if (!resultados.length) {
-            mensajeSinResultados.classList.remove("oculto");
-            return;
-        } else {
-            mensajeSinResultados.classList.add("oculto");
-        }
-
-        for (const item of resultados) {
-            const fila = document.createElement("tr");
-
-            const c1 = document.createElement("td");
-            c1.textContent = item.cp;
-
-            const c2 = document.createElement("td");
-            c2.textContent = item.colonia;
-
-            const c3 = document.createElement("td");
-            c3.textContent = item.municipio;
-
-            const c4 = document.createElement("td");
-            c4.textContent = item.estado;
-
-            fila.appendChild(c1);
-            fila.appendChild(c2);
-            fila.appendChild(c3);
-            fila.appendChild(c4);
-
-            cuerpoTabla.appendChild(fila);
-        }
+    if (texto === "") {
+        sinResultados.textContent = "Escribe un término para buscar.";
+        sinResultados.classList.remove("oculto");
+        return;
     }
 
-    boton.addEventListener("click", realizarBusqueda);
-    input.addEventListener("keyup", () => realizarBusqueda());
+    const resultados = CODIGOS_POSTALES.filter(item =>
+        item.cp.includes(texto) ||
+        item.asentamiento.toLowerCase().includes(texto) ||
+        item.municipio.toLowerCase().includes(texto) ||
+        item.estado.toLowerCase().includes(texto)
+    );
 
-    realizarBusqueda(); // mostrar todo al inicio
+    if (resultados.length === 0) {
+        sinResultados.textContent = "No se encontraron resultados.";
+        sinResultados.classList.remove("oculto");
+        return;
+    }
+
+    resultados.forEach(item => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td>${item.cp}</td>
+            <td>${item.estado}</td>
+            <td>${item.municipio}</td>
+            <td>${item.ciudad || ""}</td>
+            <td>${item.tipo}</td>
+            <td>${item.asentamiento}</td>
+            <td>${item.claveOficina}</td>
+        `;
+        tabla.appendChild(fila);
+    });
 }
-
 // =======================
 // Listado de oficios
 // =======================
