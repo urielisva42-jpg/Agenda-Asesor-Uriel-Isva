@@ -1,191 +1,209 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agenda Asesor Uriel</title>
 
-    <!-- Vista móvil fija tipo app -->
-    <meta name="viewport" 
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <!-- PWA modo app en iPhone -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="icon-512.png">
-    <link rel="apple-touch-startup-image" href="splash.png">
-
-    <!-- Modo app Android -->
-    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Tu CSS -->
+    <link rel="stylesheet" href="styles.css" />
 
     <!-- Manifest PWA -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json" />
 
-    <title>Agenda de trabajo - Asesor Uriel</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Iconos (opcional, ajusta rutas si cambian) -->
+    <link rel="icon" href="icon-192.png" />
 </head>
 <body>
     <header class="encabezado">
-        <div class="encabezado-izquierda">
-            <img src="logo-asesoruriel.png"
-                 alt="Asesor Uriel - Compartamos Banco"
-                 class="logo-encabezado">
+        <h1>Agenda de trabajo - Asesor Uriel</h1>
+        <p class="texto-secundario">
+            Herramientas rápidas para tu día a día: agenda, CP, oficios, números y ciclos.
+        </p>
 
-            <div>
-                <h1>Agenda de trabajo - Asesor Uriel</h1>
-                <p class="subtitulo">Herramienta sencilla para organizar tu día de trabajo en Compartamos Banco.</p>
-            </div>
-        </div>
-
-        <div class="actividades-hoy">
-            <h2>Actividades de hoy</h2>
-            <ul id="lista-actividades-hoy">
-                <li class="texto-secundario">Aún no hay actividades para hoy.</li>
-            </ul>
-        </div>
-    </header>
-
-    <main class="contenido">
-
-        <!-- Botones principales -->
-        <section class="acciones-principales">
-            <button class="boton-accion" data-panel="panel-cp">Buscar Código Postal</button>
-            <button class="boton-accion" data-panel="panel-oficios">Catálogo de Oficios</button>
-            <button class="boton-accion" data-panel="panel-numeros">Números Oficiales de Veracruz</button>
-            <button class="boton-accion" data-panel="panel-calendario">Calendario</button>
-            <button class="boton-accion" data-panel="panel-ciclos">Calculadora de ciclos</button>
+        <!-- Actividades de hoy -->
+        <section class="resumen-hoy">
+            <h2>Actividades para hoy</h2>
+            <ul id="lista-actividades-hoy"></ul>
         </section>
 
-        <!-- Panel CP -->
-<section id="panel-cp" class="panel">
-    <h2>Buscar Código Postal</h2>
-    <p class="texto-secundario">Escribe un CP, colonia o asentamiento para buscar en el catálogo.</p>
+        <!-- Botones para cambiar de panel -->
+        <nav class="menu-principal">
+            <button class="boton-accion" data-panel="panel-agenda">Agenda</button>
+            <button class="boton-accion" data-panel="panel-cp">Códigos Postales</button>
+            <button class="boton-accion" data-panel="panel-oficios">Oficios</button>
+            <button class="boton-accion" data-panel="panel-numeros">Números oficiales</button>
+            <button class="boton-accion" data-panel="panel-ciclos">Calculadora de ciclos</button>
+        </nav>
+    </header>
 
-    <div class="buscador">
-        <input type="text" id="input-cp" placeholder="Ej. 95640 o Isla Centro">
-        <button id="btn-buscar-cp">Buscar</button>
-    </div>
+    <main>
+        <!-- ==========================
+             PANEL AGENDA
+        =========================== -->
+        <section id="panel-agenda" class="panel">
+            <h2>Agenda de actividades</h2>
+            <p class="texto-secundario">
+                Registra tus visitas, llamadas, seguimientos y cualquier actividad importante.
+            </p>
 
-    <div class="resultados">
-        <table>
-            <thead>
-                <tr>
-                    <th>CP</th>
-                    <th>Estado</th>
-                    <th>Municipio</th>
-                    <th>Ciudad</th>
-                    <th>Tipo</th>
-                    <th>Asentamiento</th>
-                    <th>Clave Oficina</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-cp"></tbody>
-        </table>
+            <form id="form-actividad" class="formulario">
+                <div class="fila-form">
+                    <label for="fecha-actividad">Fecha</label>
+                    <input type="date" id="fecha-actividad" required />
+                </div>
 
-        <p id="cp-sin-resultados" class="texto-secundario oculto">
-            No se encontraron resultados.
-        </p>
-    </div>
-</section>
-        <!-- Panel Oficios -->
-        <section id="panel-oficios" class="panel oculto">
-            <h2>Catálogo de Oficios</h2>
-            <p class="texto-secundario">Consulta oficios comunes de clientes.</p>
+                <div class="fila-form">
+                    <label for="hora-actividad">Hora</label>
+                    <input type="time" id="hora-actividad" />
+                </div>
+
+                <div class="fila-form">
+                    <label for="titulo-actividad">Título</label>
+                    <input type="text" id="titulo-actividad" placeholder="Ej. Visita cliente Juan Pérez" required />
+                </div>
+
+                <div class="fila-form">
+                    <label for="descripcion-actividad">Descripción</label>
+                    <textarea id="descripcion-actividad" rows="3" placeholder="Detalles de la actividad"></textarea>
+                </div>
+
+                <button type="submit">Agregar actividad</button>
+            </form>
+
+            <h3>Próximas actividades</h3>
+            <p id="actividades-sin-registro" class="texto-secundario oculto">
+                Aún no tienes actividades registradas.
+            </p>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-actividades"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ==========================
+             PANEL CÓDIGOS POSTALES
+        =========================== -->
+        <section id="panel-cp" class="panel oculto">
+            <h2>Buscar Código Postal</h2>
+            <p class="texto-secundario">
+                Escribe un CP, asentamiento o municipio para buscar en el catálogo.
+            </p>
 
             <div class="buscador">
-                <input type="text" id="input-oficios" placeholder="Buscar oficio">
+                <input type="text" id="input-cp" placeholder="Ej. 95640 o Isla Centro" />
+                <button id="btn-buscar-cp">Buscar</button>
+            </div>
+
+            <div class="resultados">
+                <div class="tabla-contenedor">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CP</th>
+                                <th>Estado</th>
+                                <th>Municipio</th>
+                                <th>Ciudad</th>
+                                <th>Tipo</th>
+                                <th>Asentamiento</th>
+                                <th>Clave Oficina</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-cp"></tbody>
+                    </table>
+                </div>
+
+                <p id="cp-sin-resultados" class="texto-secundario oculto">
+                    No se encontraron resultados.
+                </p>
+            </div>
+        </section>
+
+        <!-- ==========================
+             PANEL OFICIOS
+        =========================== -->
+        <section id="panel-oficios" class="panel oculto">
+            <h2>Catálogo de oficios</h2>
+            <p class="texto-secundario">
+                Consulta ejemplos de oficios y actividades económicas de tus clientes.
+            </p>
+
+            <div class="buscador">
+                <input
+                    type="text"
+                    id="input-oficios"
+                    placeholder="Ej. comerciante, tortillera, abarrotero..."
+                />
             </div>
 
             <ul id="lista-oficios" class="lista-simple"></ul>
         </section>
 
-        <!-- Panel Números Oficiales -->
+        <!-- ==========================
+             PANEL NÚMEROS OFICIALES
+        =========================== -->
         <section id="panel-numeros" class="panel oculto">
-            <h2>Números Oficiales de Veracruz</h2>
-            <p class="texto-secundario">Números útiles en Veracruz.</p>
+            <h2>Números oficiales</h2>
+            <p class="texto-secundario">
+                Ten a la mano teléfonos de emergencia y números de apoyo.
+            </p>
 
             <div class="buscador">
-                <input type="text" id="input-numeros" placeholder="Buscar institución o número">
+                <input
+                    type="text"
+                    id="input-numeros"
+                    placeholder="Ej. emergencias, protección civil, cruz roja..."
+                />
             </div>
 
             <ul id="lista-numeros" class="lista-simple"></ul>
         </section>
 
-        <!-- Panel Calendario -->
-        <section id="panel-calendario" class="panel oculto">
-            <h2>Calendario de actividades</h2>
-
-            <form id="form-actividad" class="formulario">
-                <div class="campo-formulario">
-                    <label>Fecha</label>
-                    <input type="date" id="fecha-actividad" required>
-                </div>
-
-                <div class="campo-formulario">
-                    <label>Hora</label>
-                    <input type="time" id="hora-actividad">
-                </div>
-
-                <div class="campo-formulario">
-                    <label>Título</label>
-                    <input type="text" id="titulo-actividad" required>
-                </div>
-
-                <div class="campo-formulario">
-                    <label>Descripción</label>
-                    <textarea id="descripcion-actividad"></textarea>
-                </div>
-
-                <button class="boton-primario" type="submit">Agregar actividad</button>
-            </form>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th><th>Hora</th><th>Título</th><th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-actividades"></tbody>
-            </table>
-
-            <p id="actividades-sin-registro" class="texto-secundario">Aún no tienes actividades.</p>
-        </section>
-
-        <!-- Panel Calculadora de ciclos -->
+        <!-- ==========================
+             PANEL CALCULADORA DE CICLOS
+        =========================== -->
         <section id="panel-ciclos" class="panel oculto">
-            <h2>Calculadora de ciclos (16 semanas)</h2>
+            <h2>Calculadora de ciclos de crédito</h2>
             <p class="texto-secundario">
-                Ingresa la fecha de inicio (semana 1).
-                Se calculará fin de ciclo (semana 16) y firma (semana 13).
+                Calcula la fecha de fin de ciclo (semana 16) y la semana 13 para renovación.
             </p>
 
-            <form id="form-ciclo" class="formulario formulario-ciclo">
-                <div class="campo-formulario">
-                    <label>Inicio del ciclo</label>
-                    <input type="date" id="fecha-inicio-ciclo" required>
+            <form id="form-ciclo" class="formulario">
+                <div class="fila-form">
+                    <label for="fecha-inicio-ciclo">Fecha de inicio del ciclo</label>
+                    <input type="date" id="fecha-inicio-ciclo" required />
                 </div>
 
-                <button type="submit" class="boton-primario">Calcular fechas</button>
+                <button type="submit">Calcular</button>
             </form>
-
-            <div id="resultados-ciclo" class="resultados-ciclo texto-secundario oculto">
-                <p><strong>Fin del ciclo:</strong> <span id="fecha-fin-ciclo"></span></p>
-                <p><strong>Semana 13 (firma):</strong> <span id="fecha-semana-13"></span></p>
-                <p><strong>Recordatorio:</strong> <span id="texto-recordatorio"></span></p>
-
-                <button id="btn-agregar-semana13" class="boton-primario boton-secundario">
-                    Agregar semana 13 al calendario
-                </button>
-            </div>
 
             <p id="mensaje-error-ciclo" class="texto-secundario oculto">
-                Selecciona una fecha válida.
+                Verifica la fecha de inicio del ciclo.
             </p>
+
+            <div id="resultados-ciclo" class="tarjeta oculto">
+                <p><strong>Fin de ciclo (semana 16):</strong> <span id="fecha-fin-ciclo"></span></p>
+                <p><strong>Semana 13 (renovación):</strong> <span id="fecha-semana-13"></span></p>
+                <p id="texto-recordatorio" class="texto-secundario"></p>
+
+                <button id="btn-agregar-semana13" type="button">
+                    Agregar semana 13 a la agenda
+                </button>
+            </div>
         </section>
     </main>
 
-    <footer class="pie">
-        Agenda no oficial del Asesor Uriel. Uso interno.
-    </footer>
-
+    <!-- Tu script -->
     <script src="script.js"></script>
 </body>
 </html>
