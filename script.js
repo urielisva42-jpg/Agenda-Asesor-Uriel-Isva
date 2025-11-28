@@ -2,10 +2,10 @@
 // Datos precargados
 // =======================
 
-// Códigos postales (ejemplos, puedes agregar más)
+// Códigos postales
 const CODIGOS_POSTALES = [
   { cp: "95640", estado: "Veracruz de Ignacio de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "Isla Centro", claveOficina: "95641" },
-  { cp: "95642", estado: "Veracruz de Ignacio de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "Cetis", claveOficina: "95641" },
+  { cp: "95642", estado: "Veracruz de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "Cetis", claveOficina: "95641" },
   { cp: "95643", estado: "Veracruz de Ignacio de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "El Paraíso", claveOficina: "95641" },
   { cp: "95643", estado: "Veracruz de Ignacio de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "Benito Juárez", claveOficina: "95641" },
   { cp: "95643", estado: "Veracruz de Ignacio de la Llave", municipio: "Isla", ciudad: "Isla", tipo: "Colonia", asentamiento: "Lázaro Cárdenas", claveOficina: "95641" },
@@ -321,7 +321,30 @@ function configurarBotonesPaneles() {
 // Buscador Códigos Postales
 // =======================
 
-document.getElementById("btn-buscar-cp").addEventListener("click", buscarCP);
+function configurarBuscadorCP() {
+    const input = document.getElementById("input-cp");
+    const boton = document.getElementById("btn-buscar-cp");
+    const sinResultados = document.getElementById("cp-sin-resultados");
+
+    if (!input || !boton) return;
+
+    // Click en el botón
+    boton.addEventListener("click", buscarCP);
+
+    // Enter en el input
+    input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            buscarCP();
+        }
+    });
+
+    // Limpiar mensaje de "sin resultados" cuando el usuario escriba
+    input.addEventListener("input", () => {
+        if (sinResultados) {
+            sinResultados.classList.add("oculto");
+        }
+    });
+}
 
 function buscarCP() {
     const texto = document.getElementById("input-cp").value.trim().toLowerCase();
@@ -364,6 +387,7 @@ function buscarCP() {
         tabla.appendChild(fila);
     });
 }
+
 // =======================
 // Listado de oficios
 // =======================
